@@ -1,7 +1,5 @@
 package com.udacity.jwdnd.course1.cloudstorage.model;
 
-import java.sql.Blob;
-
 /**
  * File class holds the displayed files information
  * It is a Java class that matches the data in the FILES table
@@ -13,10 +11,9 @@ public class File {
     private String contentType;
     private String fileSize;
     private Integer userId;
-    private Blob fileData;
+    private byte[] fileData;
 
-    public File(Integer fileId, String fileName, String contentType, String fileSize, Integer userId, Blob fileData) {
-        this.fileId = fileId;
+    public File(String fileName, String contentType, String fileSize, Integer userId, byte[] fileData) {
         this.fileName = fileName;
         this.contentType = contentType;
         this.fileSize = fileSize;
@@ -64,11 +61,12 @@ public class File {
         this.userId = userId;
     }
 
-    public Blob getFileData() {
+    public byte[] getFileData() {
         return fileData;
     }
 
-    public void setFileData(Blob fileData) {
+    public void setFileData(byte[] fileData) {
         this.fileData = fileData;
     }
 }
+
