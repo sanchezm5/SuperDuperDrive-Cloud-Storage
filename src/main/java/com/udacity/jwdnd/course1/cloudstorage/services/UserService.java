@@ -22,6 +22,13 @@ public class UserService {
         return userMapper.getUser(username) == null;
     }
 
+    public User getUser(String username) throws NullPointerException {
+        if (isUsernameAvailable(username)) {
+            throw new NullPointerException();
+        }
+        return userMapper.getUser(username);
+    }
+
     public int createUser(User user) {
         SecureRandom random = new SecureRandom();
         byte[] salt = new byte[16];
@@ -29,9 +36,5 @@ public class UserService {
         String encodedSalt = Base64.getEncoder().encodeToString(salt);
         String hashedPassword = hashService.getHashedValue(user.getPassword(), encodedSalt);
         return userMapper.insertUser(new User(null, user.getUsername(), encodedSalt, hashedPassword, user.getFirstname(), user.getLastname()));
-    }
-
-    public User getUser(String username) {
-        return userMapper.getUser(username);
     }
 }
