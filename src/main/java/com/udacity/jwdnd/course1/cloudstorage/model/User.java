@@ -12,8 +12,7 @@ public class User {
     private String firstname;
     private String lastname;
 
-    public User(Integer userId, String username, String salt, String password, String firstname, String lastname) {
-        this.userId = userId;
+    public User(String username, String salt, String password, String firstname, String lastname) {
         this.username = username;
         this.salt = salt;
         this.password = password;
@@ -67,5 +66,17 @@ public class User {
 
     public void setLastname(String lastname) {
         this.lastname = lastname;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", username='" + username + '\'' +
+                ", salt='" + salt + '\'' +
+                ", password='" + password + '\'' +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                '}';
     }
 }
