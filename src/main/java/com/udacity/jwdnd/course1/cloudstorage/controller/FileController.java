@@ -8,10 +8,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -35,6 +32,13 @@ public class FileController {
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
+    }
+
+    @GetMapping("/file/delete/{fileName}")
+    public String deleteFile(@PathVariable String fileName, Authentication authentication, RedirectAttributes redirectAttributes) {
+        fileService.deleteFile(fileName);
+        redirectAttributes.addFlashAttribute("deleteSuccess", "Successfully deleted " + fileName);
+        return "redirect:/result";
     }
 
     @PostMapping("/file/upload")

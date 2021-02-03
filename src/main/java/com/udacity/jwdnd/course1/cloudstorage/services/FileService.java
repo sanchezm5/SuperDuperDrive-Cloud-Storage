@@ -64,4 +64,8 @@ public class FileService {
         }
         return files;
     }
+
+    public void deleteFile(String fileName) {
+        fileMapper.deleteFile(fileName);
+    }
 }
