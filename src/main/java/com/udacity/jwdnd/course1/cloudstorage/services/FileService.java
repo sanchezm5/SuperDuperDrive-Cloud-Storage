@@ -43,16 +43,16 @@ public class FileService {
         return 0;
     }
 
-//    public File loadFile(String fileName){
-//        File file = null;
-//        try{
-//            file = fileMapper.getFile(authenticatedUser.getLoggedInUserId(), fileName);
-//        }catch (NullPointerException e){
-//            e.printStackTrace();
-//            throw e;
-//        }
-//        return file;
-//    }
+    public File loadFile(String fileName){
+        File file;
+        try {
+            file = fileMapper.getFile(authenticatedUser.getLoggedInUserId(), fileName);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            throw e;
+        }
+        return file;
+    }
 
     public List<File> loadFiles() {
         List<File> files;
