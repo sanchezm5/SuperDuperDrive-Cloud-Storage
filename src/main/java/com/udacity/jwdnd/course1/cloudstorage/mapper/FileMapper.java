@@ -25,14 +25,6 @@ public interface FileMapper {
     @Select("SELECT * FROM FILES WHERE userid = #{userId}")
     List<File> getFiles(Integer userId);
 
-    @Results({
-            @Result(property = "fileId", column = "fileid"),
-            @Result(property = "fileName", column = "filename"),
-            @Result(property = "contentType", column = "contenttype"),
-            @Result(property = "fileSize", column = "filesize"),
-            @Result(property = "userId", column = "userid"),
-            @Result(property = "fileData", column = "filedata")
-    })
     @Select("SELECT * FROM FILES WHERE userid = #{userId} AND filename = #{fileName}")
     File getFile(Integer userId, String fileName);
 
