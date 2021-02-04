@@ -4,6 +4,7 @@ package com.udacity.jwdnd.course1.cloudstorage.model;
  * User class holds the displayed user information
  * It is a Java class that matches the data in the USERS table
  */
+
 public class User {
     private Integer userId;
     private String username;

@@ -4,6 +4,7 @@ package com.udacity.jwdnd.course1.cloudstorage.model;
  * Credentials class holds the displayed credentials information
  * It is a Java class that matches the data in the CREDENTIALS table
  */
+
 public class Credential {
     private Integer credentialId;
     private String url;
