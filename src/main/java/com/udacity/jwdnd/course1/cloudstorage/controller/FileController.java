@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
+@RequestMapping("/file")
 public class FileController {
 
     private FileService fileService;
@@ -21,7 +22,7 @@ public class FileController {
         this.fileService = fileService;
     }
 
-    @GetMapping("/file/{fileName}")
+    @GetMapping("/{fileName}")
     public ResponseEntity<Resource> viewFile(@PathVariable String fileName) {
         File fileToView = fileService.loadFile(fileName);
         try {
@@ -34,14 +35,14 @@ public class FileController {
         }
     }
 
-    @GetMapping("/file/delete/{fileName}")
+    @GetMapping("/delete/{fileName}")
     public String deleteFile(@PathVariable String fileName, Authentication authentication, RedirectAttributes redirectAttributes) {
         fileService.deleteFile(fileName);
         redirectAttributes.addFlashAttribute("deleteSuccess", "Successfully deleted " + fileName);
         return "redirect:/result";
     }
 
-    @PostMapping("/file/upload")
+    @PostMapping("/upload")
     public String uploadFile(@RequestParam("fileUpload") MultipartFile multipartFile, Authentication authentication, RedirectAttributes redirectAttributes) {
         if (multipartFile.isEmpty()) {
             redirectAttributes.addFlashAttribute("message","Please upload a file!");
