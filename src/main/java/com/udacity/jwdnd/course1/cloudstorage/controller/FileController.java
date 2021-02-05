@@ -56,7 +56,7 @@ public class FileController {
             redirectAttributes.addFlashAttribute("message","Please try again!");
             return "redirect:/home";
         }
-        redirectAttributes.addFlashAttribute("message","Succesfully uploaded " + multipartFile.getOriginalFilename());
+        redirectAttributes.addFlashAttribute("message","Successfully uploaded " + multipartFile.getOriginalFilename());
         return "redirect:/home";
     }
 }
