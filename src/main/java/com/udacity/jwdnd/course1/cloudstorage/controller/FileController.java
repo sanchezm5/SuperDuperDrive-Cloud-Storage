@@ -38,8 +38,8 @@ public class FileController {
     @GetMapping("/delete/{fileName}")
     public String deleteFile(@PathVariable String fileName, Authentication authentication, RedirectAttributes redirectAttributes) {
         fileService.deleteFile(fileName);
-        redirectAttributes.addFlashAttribute("deleteSuccess", "Successfully deleted " + fileName);
-        return "redirect:/result";
+        redirectAttributes.addFlashAttribute("message", "Successfully deleted " + fileName);
+        return "redirect:/home";
     }
 
     @PostMapping("/upload")
