@@ -4,6 +4,7 @@ import com.udacity.jwdnd.course1.cloudstorage.model.NoteForm;
 import com.udacity.jwdnd.course1.cloudstorage.services.NoteService;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +27,10 @@ public class NoteController {
         } else {
             noteService.editNote(noteForm);
             redirectAttributes.addFlashAttribute("editNoteSuccess", "Your note has successfully been edited.");
+            return "redirect:/result";
         }
         return "redirect:/result";
     }
+
+
 }
