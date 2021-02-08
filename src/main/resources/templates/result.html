@@ -11,8 +11,10 @@
     <body class="p-3 mb-2 bg-light text-black">
         <div class="container justify-content-center w-50 p-3" style="margin-top: 5em;">
             <form action=# th:action="@{/result}" method="GET">
-                <div class="alert alert-success fill-parent">
-                    <h1 class="display-5">Success</h1>
+                <div class="alert alert-success" role="alert">
+                    <h1 class="alert-heading">Success</h1>
+                    <p id="edit-msg" th:if="${editNoteSuccess}" class="mb-0">Your note has been edited.</p>
+                    <hr>
                     <span>Your changes were successfully saved. Click <a th:href="@{home}">here</a> to continue.</span>
                 </div>
             </form>

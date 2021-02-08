@@ -26,7 +26,7 @@ public class NoteController {
             noteService.addNote(noteForm);
         } else {
             noteService.editNote(noteForm);
-            redirectAttributes.addFlashAttribute("editNoteSuccess", "Your note has successfully been edited.");
+            redirectAttributes.addFlashAttribute("editNoteSuccess", true);
             return "redirect:/result";
         }
         return "redirect:/result";
