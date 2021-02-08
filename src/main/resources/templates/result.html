@@ -13,7 +13,8 @@
             <form action=# th:action="@{/result}" method="GET">
                 <div class="alert alert-success" role="alert">
                     <h1 class="alert-heading">Success</h1>
-                    <p id="edit-msg" th:if="${editNoteSuccess}" class="mb-0">Your note has been edited.</p>
+                    <p id="edit-note-msg" th:if="${editNoteSuccess}" class="mb-0">Your note has been edited.</p>
+                    <p id="delete-note-msg" th:if="${deleteNoteSuccess}" class="mb-0">Your note has been deleted.</p>
                     <hr>
                     <span>Your changes were successfully saved. Click <a th:href="@{home}">here</a> to continue.</span>
                 </div>
