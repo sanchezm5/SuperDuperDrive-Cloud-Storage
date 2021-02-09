@@ -1,12 +1,7 @@
 package com.udacity.jwdnd.course1.cloudstorage.controller;
 
-import com.udacity.jwdnd.course1.cloudstorage.model.File;
-import com.udacity.jwdnd.course1.cloudstorage.model.Note;
-import com.udacity.jwdnd.course1.cloudstorage.model.NoteForm;
-import com.udacity.jwdnd.course1.cloudstorage.services.AuthenticationUserService;
-import com.udacity.jwdnd.course1.cloudstorage.services.EncryptionService;
-import com.udacity.jwdnd.course1.cloudstorage.services.FileService;
-import com.udacity.jwdnd.course1.cloudstorage.services.NoteService;
+import com.udacity.jwdnd.course1.cloudstorage.model.*;
+import com.udacity.jwdnd.course1.cloudstorage.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -25,12 +20,14 @@ public class HomeController {
     @Autowired
     private NoteService noteService;
     @Autowired
+    private CredentialService credentialService;
+    @Autowired
     private AuthenticationUserService authenticationUserService;
     @Autowired
     private EncryptionService encryptionService;
 
     @GetMapping("/home")
-    public String getHomePage(@ModelAttribute("noteForm") NoteForm noteForm, Authentication authentication, Model model) {
+    public String getHomePage(@ModelAttribute("noteForm") NoteForm noteForm, @ModelAttribute("credentialForm") CredentialForm credentialForm, Authentication authentication, Model model) {
         model.addAttribute("name", authenticationUserService.getLoggedInName());
 
         List<File> filesList;
@@ -47,10 +44,19 @@ public class HomeController {
             noteList = new ArrayList<>();
         }
 
+        List<Credential> credentialList;
+        try {
+            credentialList = credentialService.getCredentials(authenticationUserService.getLoggedInUserId());
+        } catch (NullPointerException e) {
+            credentialList = new ArrayList<>();
+        }
+
         model.addAttribute("files", filesList);
         model.addAttribute("fileSize", filesList.size());
         model.addAttribute("notes", noteList);
         model.addAttribute("noteSize", noteList.size());
+        model.addAttribute("credentials", credentialList);
+        model.addAttribute("credentialSize", credentialList.size());
         model.addAttribute("encryptService", encryptionService);
 
         return "home";

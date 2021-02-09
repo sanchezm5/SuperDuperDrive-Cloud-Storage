@@ -55,7 +55,7 @@ public class CredentialService {
         return credentialMapper.insertCredential(new Credential(0,
                 credentialForm.getUrl(),
                 credentialForm.getUsername(),
-                encodedKey,credentialForm.getPassword(),
+                encodedKey,encryptedPassword,
                 authenticationUserService.getLoggedInUserId()));
     }
 
