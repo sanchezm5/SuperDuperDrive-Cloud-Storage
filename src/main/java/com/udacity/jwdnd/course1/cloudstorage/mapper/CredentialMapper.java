@@ -23,20 +23,20 @@ public interface CredentialMapper {
             @Result(property = "userId", column = "userid")
     })
 
-    @Select("SELECT * FROM CREDENTIALS WHERE userid = #{userId}")
+    @Select("SELECT * FROM CREDENTIALS WHERE userid=#{userId}")
     List<Credential> getCredentials(Integer userId);
 
-    @Select("SELECT * FROM CREDENTIALS WHERE credentialid = #{credentialId}")
+    @Select("SELECT * FROM CREDENTIALS WHERE credentialid=#{credentialId}")
     Credential getCredential(Integer credentialId);
 
     @Insert("INSERT INTO CREDENTIALS (url, username, key, password, userid) VALUES(#{url}, #{username}, #{key}, #{password}, #{userId})")
     @Options(useGeneratedKeys = true, keyProperty = "credentialId")
     int insertCredential(Credential credential);
 
-    @Update("UPDATE CREDENTIALS SET (url, username, key, password, userId) WHERE credentialid = #{credentialId}")
+    @Update("UPDATE CREDENTIALS SET url=#{url}, username=#{username}, key=#{key}, password=#{password}, userid=#{userid} WHERE credentialid=#{credentialId}")
     void updateCredential(Credential credential);
 
-    @Delete("DELETE FROM CREDENTIALS WHERE credentialid = #{credentialId}")
+    @Delete("DELETE FROM CREDENTIALS WHERE credentialid=#{credentialId}")
     void deleteCredential(Integer credentialId);
 }
 
