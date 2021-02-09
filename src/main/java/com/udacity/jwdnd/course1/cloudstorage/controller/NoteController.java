@@ -23,7 +23,7 @@ public class NoteController {
             noteService.addNote(noteForm);
         } else {
             noteService.editNote(noteForm);
-            redirectAttributes.addFlashAttribute("editNoteSuccess", true);
+            redirectAttributes.addFlashAttribute("editNoteSuccess", "Note edited.");
             return "redirect:/result";
         }
         return "redirect:/result";
@@ -32,7 +32,7 @@ public class NoteController {
     @GetMapping("/delete/{noteId}")
     public String deleteNote(@PathVariable Integer noteId, Authentication authentication, RedirectAttributes redirectAttributes) {
         noteService.deleteNote(noteId);
-        redirectAttributes.addFlashAttribute("deleteNoteSuccess", true);
+        redirectAttributes.addFlashAttribute("deleteNoteSuccess", "Note deleted.");
         return "redirect:/result";
     }
 

@@ -4,9 +4,7 @@ import com.udacity.jwdnd.course1.cloudstorage.model.CredentialForm;
 import com.udacity.jwdnd.course1.cloudstorage.services.CredentialService;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -25,9 +23,16 @@ public class CredentialController {
             credentialService.addCredential(credentialForm);
         } else {
             credentialService.updateCredential(credentialForm);
-            redirectAttributes.addFlashAttribute("editCredentialSuccess", true);
+            redirectAttributes.addFlashAttribute("editCredentialSuccess", "Credential edited.");
             return "redirect:/result";
         }
+        return "redirect:/result";
+    }
+
+    @GetMapping("/delete/{credentialId}")
+    public String deleteCredential(@PathVariable Integer credentialId, Authentication authentication, RedirectAttributes redirectAttributes) {
+        credentialService.deleteCredential(credentialId);
+        redirectAttributes.addFlashAttribute("deleteCredentialSuccess", "Credential deleted.");
         return "redirect:/result";
     }
 }

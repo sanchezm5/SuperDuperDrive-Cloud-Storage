@@ -13,9 +13,10 @@
             <form action=# th:action="@{/result}" method="GET">
                 <div class="alert alert-success" role="alert">
                     <h1 class="alert-heading">Success</h1>
-                    <p id="edit-note-msg" th:if="${editNoteSuccess}" class="mb-0">Your note has been edited.</p>
-                    <p id="delete-note-msg" th:if="${deleteNoteSuccess}" class="mb-0">Your note has been deleted.</p>
-                    <p id="edit-credential-msg" th:if="${editCredentialSuccess}" class="mb-0">Your credential has been edited.</p>
+                    <p id="edit-note-msg" th:text="${editNoteSuccess}" class="mb-0">Note edited msg</p>
+                    <p id="delete-note-msg" th:text="${deleteNoteSuccess}" class="mb-0">Note deleted msg</p>
+                    <p id="edit-credential-msg" th:text="${editCredentialSuccess}" class="mb-0">Cred edit msg</p>
+                    <p id="delete-credential-msg" th:text="${deleteCredentialSuccess}" class="mb-0">Cred delete msg</p>
                     <hr>
                     <span>Your changes were successfully saved. Click <a th:href="@{home}">here</a> to continue.</span>
                 </div>
