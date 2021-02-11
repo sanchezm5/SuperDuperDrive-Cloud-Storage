@@ -6,7 +6,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 /**
- * Selenium Page Object: SignUpPage which repesents the page we are testing
+ * Selenium Page Object: SignUpPage which represents the page we are testing
  */
 
 public class SignUpPage {
@@ -41,3 +41,4 @@ public class SignUpPage {
         this.submitButton.click();
     }
 }
+
