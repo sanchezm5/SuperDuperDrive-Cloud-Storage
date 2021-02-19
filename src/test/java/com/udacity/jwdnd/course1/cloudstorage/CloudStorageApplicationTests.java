@@ -2,12 +2,16 @@ package com.udacity.jwdnd.course1.cloudstorage;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -22,6 +26,7 @@ class CloudStorageApplicationTests {
 	private SignUpPage signup;
 	private LoginPage login;
 	private HomePage home;
+	private NotesTabPage notes;
 	private WebDriverWait wait;
 
 	String firstname = "Person";
@@ -120,6 +125,38 @@ class CloudStorageApplicationTests {
 		driver.get("http://localhost:" + port + "/home");
 		assertEquals("Login", driver.getTitle());
 	}
+
+	@Test
+	@Order(5)
+	public void testAddEditDeleteNotes() throws InterruptedException {
+		// checks for signup and login of user
+		testValidUserSignUpAndLoginGetHomePage();
+
+		// user can now go to the notes tab, click on button to add a note, enter the info and save changes
+		notes = new NotesTabPage(driver);
+		Thread.sleep(1000);
+		WebElement nav = driver.findElement(By.id("nav-notes-tab"));
+		nav.click();
+		notes.addNote(driver, "Note title", "Note description", nav);
+
+		// after changes are saved, the result page is shown and user should then be able then view home page
+		driver.get("http://localhost:" + this.port + "/result");
+		Thread.sleep(1000);
+		wait.until(ExpectedConditions.elementToBeClickable(By.id("home-link"))).click();
+		driver.get("http://localhost:" + this.port +  "/home");
+
+		// checks that user can view an existing note and then edit it
+		List<String> detail = notes.getDetail(driver);
+		assertEquals("Note title", detail.get(0));
+		assertEquals("Note description", detail.get(1));
+		notes.editNote(driver, "Edited title", "Edited description");
+		driver.get("http://localhost:" + this.port + "/home");
+		detail = notes.getDetail(driver);
+		assertEquals("Edited title", detail.get(0));
+		assertEquals("Edited description", detail.get(1));
+
+	}
+
 
 
 

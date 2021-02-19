@@ -74,20 +74,24 @@ public class NotesTabPage {
             System.out.println("Timeout Exception");
             nav.click();
             wait.until(ExpectedConditions.visibilityOf(navNote)).click();
-            wait.until(ExpectedConditions.visibilityOf(addNoteButton)).click();
-            wait.until(ExpectedConditions.visibilityOf(inputTitle)).sendKeys(title);
-            wait.until(ExpectedConditions.visibilityOf(inputDescription)).sendKeys(description);
-            wait.until(ExpectedConditions.visibilityOf(submitModalButton)).click();
-            wait.until(ExpectedConditions.visibilityOf(navNote)).click();
         }
+        wait.until(ExpectedConditions.visibilityOf(addNoteButton)).click();
+        wait.until(ExpectedConditions.visibilityOf(inputTitle)).sendKeys(title);
+        wait.until(ExpectedConditions.visibilityOf(inputDescription)).sendKeys(description);
+        wait.until(ExpectedConditions.visibilityOf(submitModalButton)).click();
+        wait.until(ExpectedConditions.visibilityOf(navNote)).click();
     }
 
     public void editNote(WebDriver driver, String title, String description) {
         WebDriverWait wait = new WebDriverWait(driver, 10);
         wait.until(ExpectedConditions.visibilityOf(navNote)).click();
         wait.until(ExpectedConditions.visibilityOf((editNoteButton.get(0)))).click();
-        wait.until(ExpectedConditions.visibilityOf(inputTitle)).sendKeys(title);
-        wait.until(ExpectedConditions.visibilityOf(inputDescription)).sendKeys(description);
+        wait.until(ExpectedConditions.visibilityOf(inputTitle));
+        inputTitle.clear();
+        inputTitle.sendKeys(title);
+        wait.until(ExpectedConditions.visibilityOf(inputDescription));
+        inputDescription.clear();
+        inputDescription.sendKeys(description);
         wait.until(ExpectedConditions.visibilityOf(submitModalButton)).click();
     }
 
