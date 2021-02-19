@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 
 import java.util.List;
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -139,11 +140,11 @@ class CloudStorageApplicationTests {
 		nav.click();
 		notes.addNote(driver, "Note title", "Note description", nav);
 
-		// after changes are saved, the result page is shown and user should then be able then view home page
+		// after changes are saved, the result page is shown and user can then view the home page
 		driver.get("http://localhost:" + this.port + "/result");
 		Thread.sleep(1000);
 		wait.until(ExpectedConditions.elementToBeClickable(By.id("home-link"))).click();
-		driver.get("http://localhost:" + this.port +  "/home");
+		driver.get("http://localhost:" + this.port + "/home");
 
 		// checks that user can view an existing note and then edit it
 		List<String> detail = notes.getDetail(driver);
@@ -155,11 +156,24 @@ class CloudStorageApplicationTests {
 		assertEquals("Edited title", detail.get(0));
 		assertEquals("Edited description", detail.get(1));
 
+		// checks that user can delete an existing note
+		notes.deleteNote(driver);
+		driver.get("http://localhost:" + this.port + "/home");
+		wait.until(driver -> driver.findElement(By.id("nav-notes-tab"))).click();
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		String noteSize = wait.until(driver -> driver.findElement(By.id("note-size")).getText());
+		assertEquals("0", noteSize);
+
+		// checks that user no longer has access to home page once user logs out
+		home = new HomePage(driver);
+		home.logout();
+		wait.until(ExpectedConditions.titleIs("Login"));
+		assertEquals("http://localhost:" + this.port + "/login?logout", driver.getCurrentUrl());
+		driver.get("http://localhost:" + port + "/home");
+		assertEquals("Login", driver.getTitle());
 	}
-
-
-
-
-
-
 }
