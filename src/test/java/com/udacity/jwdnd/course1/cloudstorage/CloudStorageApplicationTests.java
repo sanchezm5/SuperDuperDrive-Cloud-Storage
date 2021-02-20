@@ -12,9 +12,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 
 import java.util.List;
-import java.util.Objects;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -28,6 +27,7 @@ class CloudStorageApplicationTests {
 	private LoginPage login;
 	private HomePage home;
 	private NotesTabPage notes;
+	private CredentialsTabPage creds;
 	private WebDriverWait wait;
 
 	String firstname = "Person";
@@ -177,5 +177,29 @@ class CloudStorageApplicationTests {
 		assertEquals("Login", driver.getTitle());
 	}
 
+	@Test
+	@Order(6)
+	public void testAddEditDeleteCredentials() throws InterruptedException {
+		// checks for signup and login of user
+		testValidUserSignUpAndLoginGetHomePage();
 
+		// user can now go to the credentials tab and create a set of credentials
+		creds = new CredentialsTabPage(driver);
+		Thread.sleep(1000);
+		WebElement nav = driver.findElement(By.id("nav-credentials-tab"));
+		nav.click();
+		creds.addCredential(driver, "credentialUrl.com", "Test Cred Username", "testCred123", nav);
+
+		// after changes are saved, the result page is shown and user can then view the home page
+		driver.get("http://localhost:" + this.port + "/result");
+		Thread.sleep(1000);
+		wait.until(ExpectedConditions.elementToBeClickable(By.id("home-link"))).click();
+		driver.get("http://localhost:" + this.port + "/home");
+
+		// checks that credentials are displayed and verifies that the displayed password is encrypted
+		List<String> detail = creds.getCredDetails(driver);
+		assertEquals("credentialUrl.com", detail.get(0));
+		assertEquals("Test Cred Username", detail.get(1));
+		assertNotEquals("testCred123", detail.get(2));
+	}
 }
