@@ -201,5 +201,33 @@ class CloudStorageApplicationTests {
 		assertEquals("credentialUrl.com", detail.get(0));
 		assertEquals("Test Cred Username", detail.get(1));
 		assertNotEquals("testCred123", detail.get(2));
+
+		// checks that user can edit existing credentials
+		creds.editCredential(driver, "editedCredUrl.com", "Edited Test Username", "testCred1234");
+		driver.get("http://localhost:" + this.port + "/home");
+		detail = creds.getCredDetails(driver);
+		assertEquals("editedCredUrl.com", detail.get(0));
+		assertEquals("Edited Test Username", detail.get(1));
+		assertNotEquals("testCred1234", detail.get(2));
+
+		// checks that user can delete existing credentials
+		creds.deleteCredential(driver);
+		driver.get("http://localhost:" + this.port + "/home");
+		wait.until(driver -> driver.findElement(By.id("nav-credentials-tab"))).click();
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		String credSize = wait.until(driver -> driver.findElement(By.id("credential-size")).getText());
+		assertEquals("0", credSize);
+
+		// checks that user no longer has access to home page once user logs out
+		home = new HomePage(driver);
+		home.logout();
+		wait.until(ExpectedConditions.titleIs("Login"));
+		assertEquals("http://localhost:" + this.port + "/login?logout", driver.getCurrentUrl());
+		driver.get("http://localhost:" + port + "/home");
+		assertEquals("Login", driver.getTitle());
 	}
 }
