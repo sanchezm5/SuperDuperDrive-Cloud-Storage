@@ -52,7 +52,7 @@ Your tech lead has done a thorough job developing HTML templates for the require
 1. Login page
  - Everyone should be allowed access to this page, and users can use this page to login to the application.
  - Show login errors, like invalid username/password, on this page.
- ![image](images/login-page.png)
+ ![](images/login-page.png)
  Login page: http://localhost:8080/login
 
 
