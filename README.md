@@ -61,6 +61,8 @@ Your tech lead has done a thorough job developing HTML templates for the require
  - Everyone should be allowed access to this page, and potential users can use this page to sign up for a new account. 
  - Validate that the username supplied does not already exist in the application, and show such signup errors on the page when they arise.
  - Remember to store the user's password securely!
+  ![image](images/signup-page.png)
+
 
 
 3. Home page
