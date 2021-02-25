@@ -27,7 +27,7 @@ public class SignupController {
     public String signupUser(@ModelAttribute User user, Model model, RedirectAttributes redirectAttributes) {
         String signupError = null;
 
-        if (!userService.isUsernameAvailable(user.getUsername())) {
+        if (!userService.isUsernameAvailable(user.getUsername()))  {
             signupError = "The username already exists.";
         }
 
@@ -44,6 +44,5 @@ public class SignupController {
         }
         redirectAttributes.addFlashAttribute("signupSuccess", true);
         return "redirect:/login";
-
     }
 }
