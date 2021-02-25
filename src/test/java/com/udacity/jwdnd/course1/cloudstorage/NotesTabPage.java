@@ -71,7 +71,6 @@ public class NotesTabPage {
         try {
             wait.until(ExpectedConditions.visibilityOf(navNote)).click();
         } catch (TimeoutException e) {
-            System.out.println("Timeout Exception");
             nav.click();
             wait.until(ExpectedConditions.visibilityOf(navNote)).click();
         }
