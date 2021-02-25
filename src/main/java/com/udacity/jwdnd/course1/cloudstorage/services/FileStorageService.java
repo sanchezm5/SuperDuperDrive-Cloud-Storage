@@ -8,23 +8,22 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class FileService {
 
     private FileMapper fileMapper;
-    private UserMapper userMapper;
-    private AuthenticationUserService authenticatedUser;
+    private UserService currentUser;
 
-    public FileService(FileMapper fileMapper, UserMapper userMapper, AuthenticationUserService authenticatedUser) {
+    public FileService(FileMapper fileMapper, UserService currentUser) {
         this.fileMapper = fileMapper;
-        this.userMapper = userMapper;
-        this.authenticatedUser = authenticatedUser;
+        this.currentUser = currentUser;
     }
 
     public boolean isFileNameAvailable(String fileName) {
-        return fileMapper.getFile(authenticatedUser.getLoggedInUserId(), fileName) == null;
+        return fileMapper.getFile(currentUser.getUserId(), fileName) == null;
     }
 
     public int uploadAFile(MultipartFile multipartFile) {
@@ -34,7 +33,7 @@ public class FileService {
                     fileName,
                     multipartFile.getContentType(),
                     Long.toString(multipartFile.getSize()),
-                    authenticatedUser.getLoggedInUserId(),
+                    currentUser.getUserId(),
                     multipartFile.getBytes());
             return fileMapper.insertFile(file);
         } catch (IOException e) {
@@ -43,10 +42,10 @@ public class FileService {
         return 0;
     }
 
-    public File loadFile(String fileName){
+    public File loadAsFile(String fileName){
         File file;
         try {
-            file = fileMapper.getFile(authenticatedUser.getLoggedInUserId(), fileName);
+            file = fileMapper.getFile(currentUser.getUserId(), fileName);
         } catch (NullPointerException e) {
             e.printStackTrace();
             throw e;
@@ -55,12 +54,11 @@ public class FileService {
     }
 
     public List<File> loadFiles() {
-        List<File> files;
+        List<File> files = new ArrayList<>();
         try {
-            files = fileMapper.getFiles(authenticatedUser.getLoggedInUserId());
+            files = fileMapper.getFiles(currentUser.getUserId());
         } catch (NullPointerException e) {
             e.printStackTrace();
-            throw e;
         }
         return files;
     }
