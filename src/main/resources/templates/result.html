@@ -18,7 +18,13 @@
                     <p id="edit-credential-msg" th:text="${editCredentialSuccess}" class="mb-0">Cred edit msg</p>
                     <p id="delete-credential-msg" th:text="${deleteCredentialSuccess}" class="mb-0">Cred delete msg</p>
                     <hr>
-                    <span>Your changes were successfully saved. Click <a id="home-link" th:href="@{home}">here</a> to continue.</span>
+                    <span>Your changes were successfully saved. Click <a id="home-link" th:href="@{/home}">here</a> to continue.</span>
+                </div>
+                <div th:if="${param.error}" class="alert alert-danger" role="alert">
+                    <h1 class="alert-heading">Error</h1>
+                    <p id="error-msg">There has been an error. Please try again.</p>
+                    <hr>
+                    <span>Your changes were not saved. Click <a th:href="@{/home}">here</a> to continue.</span>
                 </div>
             </form>
         </div>

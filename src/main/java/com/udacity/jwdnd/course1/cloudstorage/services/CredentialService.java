@@ -14,34 +14,20 @@ public class CredentialService {
 
     private CredentialMapper credentialMapper;
     private EncryptionService encryptionService;
-    private AuthenticationUserService authenticationUserService;
+    private UserService currentUser;
 
-    public CredentialService(CredentialMapper credentialMapper, EncryptionService encryptionService, AuthenticationUserService authenticationUserService) {
+    public CredentialService(CredentialMapper credentialMapper, EncryptionService encryptionService, UserService currentUser) {
         this.credentialMapper = credentialMapper;
         this.encryptionService = encryptionService;
-        this.authenticationUserService = authenticationUserService;
+        this.currentUser = currentUser;
     }
 
-    public List<Credential> getCredentials(Integer userId) {
-        List<Credential> credentialList;
-        try {
-            credentialList = credentialMapper.getCredentials(authenticationUserService.getLoggedInUserId());
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-            throw e;
-        }
-        return credentialList;
+    public List<Credential> getAllCredentials() {
+        return credentialMapper.getCredentials(currentUser.getUserId());
     }
 
     public Credential getCredential(Integer credentialId) {
-        Credential credential;
-        try {
-            credential = credentialMapper.getCredential(credentialId);
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-            throw e;
-        }
-        return credential;
+        return credentialMapper.getCredential(credentialId);
     }
 
     public int addCredential(CredentialForm credentialForm) {
@@ -52,11 +38,8 @@ public class CredentialService {
         String encryptedPassword = encryptionService.encryptValue(credentialForm.getPassword(), encodedKey);
         String decryptedPassword = encryptionService.decryptValue(encryptedPassword, encodedKey);
 
-        return credentialMapper.insertCredential(new Credential(0,
-                credentialForm.getUrl(),
-                credentialForm.getUsername(),
-                encodedKey,encryptedPassword,
-                authenticationUserService.getLoggedInUserId()));
+        return credentialMapper.insertCredential(new Credential(0, credentialForm.getUrl(),
+                credentialForm.getUsername(), encodedKey,encryptedPassword, currentUser.getUserId()));
     }
 
     public void updateCredential(CredentialForm credentialForm) {

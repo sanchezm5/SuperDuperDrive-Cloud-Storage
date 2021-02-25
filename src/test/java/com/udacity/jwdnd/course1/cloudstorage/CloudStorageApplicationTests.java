@@ -96,8 +96,8 @@ class CloudStorageApplicationTests {
 		assertEquals("Login", driver.getTitle());
 		login = new LoginPage(driver);
 		login.login("NotUser", password);
-		driver.get("http://localhost:" + this.port + "/login-user");
-		assertEquals("Error", driver.getTitle());
+		driver.get("http://localhost:" + this.port + "/login");
+		assertEquals("Login", driver.getTitle());
 	}
 
 	@Test
@@ -129,7 +129,7 @@ class CloudStorageApplicationTests {
 
 	@Test
 	@Order(5)
-	public void testAddEditDeleteNotes() throws InterruptedException {
+	public void testAddGetEditDeleteNotes() throws InterruptedException {
 		// checks for signup and login of user
 		testValidUserSignUpAndLoginGetHomePage();
 
@@ -179,7 +179,7 @@ class CloudStorageApplicationTests {
 
 	@Test
 	@Order(6)
-	public void testAddEditDeleteCredentials() throws InterruptedException {
+	public void testAddGetEditDeleteCredentials() throws InterruptedException {
 		// checks for signup and login of user
 		testValidUserSignUpAndLoginGetHomePage();
 

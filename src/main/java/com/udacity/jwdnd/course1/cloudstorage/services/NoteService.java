@@ -11,37 +11,23 @@ import java.util.List;
 public class NoteService {
 
     private NoteMapper noteMapper;
-    private AuthenticationUserService authenticationUserService;
+    private UserService currentUser;
 
-    public NoteService(NoteMapper noteMapper, AuthenticationUserService authenticationUserService) {
+    public NoteService(NoteMapper noteMapper, UserService currentUser) {
         this.noteMapper = noteMapper;
-        this.authenticationUserService = authenticationUserService;
+        this.currentUser = currentUser;
     }
 
-    public List<Note> getNotes(Integer userId) {
-        List<Note> noteList;
-        try {
-            noteList = noteMapper.getNotes(authenticationUserService.getLoggedInUserId());
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-            throw e;
-        }
-        return noteList;
+    public List<Note> getAllNotes() {
+        return noteMapper.getNotes(currentUser.getUserId());
     }
 
     public Note getNote(Integer noteId) {
-        Note note;
-        try {
-            note = noteMapper.getNote(noteId);
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-            throw e;
-        }
-        return note;
+        return noteMapper.getNote(noteId);
     }
 
     public int addNote(NoteForm noteForm) {
-        return noteMapper.addNote(new Note(0,noteForm.getNoteTitle(),noteForm.getNoteDescription(), authenticationUserService.getLoggedInUserId()));
+        return noteMapper.insertNote(new Note(0,noteForm.getNoteTitle(),noteForm.getNoteDescription(), currentUser.getUserId()));
     }
 
     public void editNote(NoteForm noteForm) {
