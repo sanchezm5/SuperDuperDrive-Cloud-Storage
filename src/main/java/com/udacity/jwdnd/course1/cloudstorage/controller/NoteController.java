@@ -2,6 +2,7 @@ package com.udacity.jwdnd.course1.cloudstorage.controller;
 
 import com.udacity.jwdnd.course1.cloudstorage.model.NoteForm;
 import com.udacity.jwdnd.course1.cloudstorage.services.NoteService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -11,11 +12,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/note")
 public class NoteController {
 
+    @Autowired
     private NoteService noteService;
-
-    public NoteController(NoteService noteService) {
-        this.noteService = noteService;
-    }
 
     @PostMapping("/add")
     public String addNote(@ModelAttribute("noteForm") NoteForm noteForm, Authentication authentication, RedirectAttributes redirectAttributes) {
@@ -24,7 +22,6 @@ public class NoteController {
         } else {
             noteService.editNote(noteForm);
             redirectAttributes.addFlashAttribute("editNoteSuccess", "Note edited.");
-            return "redirect:/result";
         }
         return "redirect:/result";
     }
@@ -35,6 +32,4 @@ public class NoteController {
         redirectAttributes.addFlashAttribute("deleteNoteSuccess", "Note deleted.");
         return "redirect:/result";
     }
-
-
 }
