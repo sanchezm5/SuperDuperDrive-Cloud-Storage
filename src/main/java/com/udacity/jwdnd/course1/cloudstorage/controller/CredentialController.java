@@ -2,6 +2,7 @@ package com.udacity.jwdnd.course1.cloudstorage.controller;
 
 import com.udacity.jwdnd.course1.cloudstorage.model.CredentialForm;
 import com.udacity.jwdnd.course1.cloudstorage.services.CredentialService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -11,11 +12,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/credential")
 public class CredentialController {
 
+    @Autowired
     private CredentialService credentialService;
-
-    public CredentialController(CredentialService credentialService) {
-        this.credentialService = credentialService;
-    }
 
     @PostMapping("/add")
     public String addCredential(@ModelAttribute("credentialForm")CredentialForm credentialForm, Authentication authentication, RedirectAttributes redirectAttributes) {
@@ -24,7 +22,6 @@ public class CredentialController {
         } else {
             credentialService.updateCredential(credentialForm);
             redirectAttributes.addFlashAttribute("editCredentialSuccess", "Credential edited.");
-            return "redirect:/result";
         }
         return "redirect:/result";
     }
