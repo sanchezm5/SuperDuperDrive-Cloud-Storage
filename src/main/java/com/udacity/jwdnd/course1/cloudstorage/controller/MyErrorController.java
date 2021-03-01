@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/error")
-
 public class MyErrorController implements ErrorController {
 
     @GetMapping()
@@ -24,12 +23,11 @@ public class MyErrorController implements ErrorController {
 
             if (statusCode == HttpStatus.NOT_FOUND.value()) {
                 redirectAttributes.addFlashAttribute("notFoundStatus", "The page you are looking for is not found.");
-                //return "redirect:/login";
+                return "redirect:/error";
             } else if (statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
                 redirectAttributes.addFlashAttribute("serverErrorStatus", "There has been an internal server error. Please try again later!");
-                //return "redirect:/login";
+                return "redirect:/error";
             }
-
         }
         return "error";
     }
