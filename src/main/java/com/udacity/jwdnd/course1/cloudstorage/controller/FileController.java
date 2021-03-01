@@ -17,7 +17,7 @@ import java.io.IOException;
 
 @Controller
 @RequestMapping("/file")
-public class FileController {
+public class FileController  {
 
     @Autowired
     private FileStorageService fileStorageService;
@@ -27,7 +27,7 @@ public class FileController {
     public ResponseEntity<Resource> viewFile(@PathVariable String fileName) {
         File fileToView = fileStorageService.loadAsFile(fileName);
         return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename=\"" + fileToView.getFileName() + "\"")
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileToView.getFileName() + "\"")
                 .body(new ByteArrayResource(fileToView.getFileData()));
     }
 
@@ -41,14 +41,14 @@ public class FileController {
     @PostMapping("/")
     public String uploadFile(@RequestParam("file") MultipartFile multipartFile, Authentication authentication, RedirectAttributes redirectAttributes) throws IOException {
         if (multipartFile.isEmpty()) {
-            redirectAttributes.addFlashAttribute("message","Please choose a file to upload!");
+            redirectAttributes.addFlashAttribute("message", "Please choose a file to upload!");
             return "redirect:/home";
-        } else if (!fileStorageService.isFileNameAvailable(multipartFile.getOriginalFilename())){
-            redirectAttributes.addFlashAttribute("message","File name already exists! Try again.");
+        } else if (!fileStorageService.isFileNameAvailable(multipartFile.getOriginalFilename())) {
+            redirectAttributes.addFlashAttribute("message", "File name already exists! Try again.");
             return "redirect:/home";
         }
         fileStorageService.uploadAFile(multipartFile);
-        redirectAttributes.addFlashAttribute("message","Successfully uploaded " + multipartFile.getOriginalFilename());
+        redirectAttributes.addFlashAttribute("message", "Successfully uploaded " + multipartFile.getOriginalFilename());
         return "redirect:/home";
     }
 }
