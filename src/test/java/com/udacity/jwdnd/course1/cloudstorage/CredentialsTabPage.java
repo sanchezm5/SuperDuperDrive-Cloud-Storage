@@ -87,7 +87,6 @@ public class CredentialsTabPage {
         wait.until(ExpectedConditions.visibilityOf(inputUsername)).sendKeys(username);
         wait.until(ExpectedConditions.visibilityOf(inputPassword)).sendKeys(password);
         wait.until(ExpectedConditions.visibilityOf(submitModalButton)).click();
-        wait.until(ExpectedConditions.visibilityOf(navCredential)).click();
     }
 
     public void editCredential(WebDriver driver, String url, String username, String password) {
